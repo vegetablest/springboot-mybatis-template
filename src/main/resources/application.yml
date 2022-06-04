@@ -1,0 +1,35 @@
+#数据源配置
+spring:
+  datasource:
+    suaf:
+      url: jdbc:mysql://localhost:3306/world?serverTimezone=GMT
+      username: root
+      password: root
+      driver-class-name: com.mysql.cj.jdbc.Driver
+    type: com.alibaba.druid.pool.DruidDataSource
+    druid:
+      initial-size: 5
+      max-active: 30
+      min-idle: 5
+      max-wait: 60000
+      validation-query: SELECT 1 FROM DUAL
+      time-between-eviction-runs-millis: 60000
+      min-evictable-idle-time-millis: 300000
+
+#pagehelper配置也可以写到配置类中，但是只能注入一个
+#pagehelper:
+#  #数据库方言，即指定DB类型
+#  #分页插件会自动检测当前的数据库链接，自动选择合适的分页方式。 你可以配置helperDialect属性来指定分页插件使用哪种方言。配置时，可以使用下面的缩写值：
+#  #oracle,mysql,mariadb,sqlite,hsqldb,postgresql,db2,sqlserver,informix,h2,sqlserver2012,derby
+#  helper-dialect: mysql
+#  #
+#  params: count=countSql
+#  reasonable: true
+#  supportMethodsArguments: true
+
+logging:
+  level:
+    com:
+      suaf:
+        page:
+          dao: debug

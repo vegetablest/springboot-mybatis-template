@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.suaf.page.dao.CityMapper">
+  <resultMap id="BaseResultMap" type="com.suaf.page.dto.city.City">
+    <id column="city_ID" jdbcType="INTEGER" property="id" />
+    <result column="city_Name" jdbcType="CHAR" property="name" />
+    <result column="city_CountryCode" jdbcType="CHAR" property="countrycode" />
+    <result column="city_District" jdbcType="CHAR" property="district" />
+    <result column="city_Population" jdbcType="INTEGER" property="population" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    city.ID as city_ID, city.`Name` as `city_Name`, city.CountryCode as city_CountryCode, 
+    city.District as city_District, city.Population as city_Population
+  </sql>
+  <select id="selectByExample" parameterType="com.suaf.page.dto.city.CityExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from city city
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from city city
+    where city.ID = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from city
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.suaf.page.dto.city.CityExample">
+    delete from city city
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" keyColumn="ID" keyProperty="id" parameterType="com.suaf.page.dto.city.City" useGeneratedKeys="true">
+    insert into city (`Name`, CountryCode, District, 
+      Population)
+    values (#{name,jdbcType=CHAR}, #{countrycode,jdbcType=CHAR}, #{district,jdbcType=CHAR}, 
+      #{population,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" keyColumn="ID" keyProperty="id" parameterType="com.suaf.page.dto.city.City" useGeneratedKeys="true">
+    insert into city
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="name != null">
+        `Name`,
+      </if>
+      <if test="countrycode != null">
+        CountryCode,
+      </if>
+      <if test="district != null">
+        District,
+      </if>
+      <if test="population != null">
+        Population,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="name != null">
+        #{name,jdbcType=CHAR},
+      </if>
+      <if test="countrycode != null">
+        #{countrycode,jdbcType=CHAR},
+      </if>
+      <if test="district != null">
+        #{district,jdbcType=CHAR},
+      </if>
+      <if test="population != null">
+        #{population,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.suaf.page.dto.city.CityExample" resultType="java.lang.Long">
+    select count(*) from city city
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update city city
+    <set>
+      <if test="record.id != null">
+        city.ID = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.name != null">
+        city.`Name` = #{record.name,jdbcType=CHAR},
+      </if>
+      <if test="record.countrycode != null">
+        city.CountryCode = #{record.countrycode,jdbcType=CHAR},
+      </if>
+      <if test="record.district != null">
+        city.District = #{record.district,jdbcType=CHAR},
+      </if>
+      <if test="record.population != null">
+        city.Population = #{record.population,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update city city
+    set city.ID = #{record.id,jdbcType=INTEGER},
+      city.`Name` = #{record.name,jdbcType=CHAR},
+      city.CountryCode = #{record.countrycode,jdbcType=CHAR},
+      city.District = #{record.district,jdbcType=CHAR},
+      city.Population = #{record.population,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.suaf.page.dto.city.City">
+    update city
+    <set>
+      <if test="name != null">
+        `Name` = #{name,jdbcType=CHAR},
+      </if>
+      <if test="countrycode != null">
+        CountryCode = #{countrycode,jdbcType=CHAR},
+      </if>
+      <if test="district != null">
+        District = #{district,jdbcType=CHAR},
+      </if>
+      <if test="population != null">
+        Population = #{population,jdbcType=INTEGER},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.suaf.page.dto.city.City">
+    update city
+    set `Name` = #{name,jdbcType=CHAR},
+      CountryCode = #{countrycode,jdbcType=CHAR},
+      District = #{district,jdbcType=CHAR},
+      Population = #{population,jdbcType=INTEGER}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+
+
+    <!--分页相关-->
+    <sql id="pageWhere">
+        <where>
+            <if test='name != null and name != ""'>
+                name like concat('%',#{name},'%')
+            </if>
+        </where>
+    </sql>
+    <select id="selectByPage" resultType="com.suaf.page.dto.city.City">
+        select
+        *
+        from city
+        <include refid="pageWhere"></include>
+        order by id desc
+        <if test="pageSize != null and startPage != null">
+            limit #{offset},#{pageSize}
+        </if>
+    </select>
+    <select id="selectByPage2" resultType="com.suaf.page.dto.city.City">
+        select
+        *
+        from city
+        <include refid="pageWhere"></include>
+        order by id desc
+    </select>
+
+    <select id="selectByPageCount" resultType="java.lang.Long">
+        select count(*) from city
+        <include refid="pageWhere"/>
+    </select>
+</mapper>
